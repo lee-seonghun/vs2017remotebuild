@@ -35,6 +35,26 @@ PC) 10%미만
 
 빌드 임시파일을 네트워크로 전송하는 부하가 너무 크다.
 
+PC1) 
+```
+net share project1=d:\source\project1 /grant:myid,change
+net share library1=d:\source\library1 /grant:myid,change
+```
+PC2)
+```
+net use z:\ \\<PC1>\project1 /user:myid mypassword
+net use y:\ \\<PC1>\library1 /user:myid mypassword
+
+mkdir d:\source
+mklink /d d:\source\project1 z:\
+mklink /d d:\source\library1 y:\
+```
+
+(vs 2017 x64 네이티브 도구 명령 프롬프트)
+```
+msbuild project1.sln /p:Configuration=release /p:Platform=x64 /t:build
+```
+  
 ## 방법2)
 빌드 중간 폴더를 각 pc의 로컬 저장소가 되도록 수정
 
